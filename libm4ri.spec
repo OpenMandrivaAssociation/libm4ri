@@ -1,4 +1,4 @@
-%define		snapshot	20090105
+%define		snapshot	20090617
 
 Name:		libm4ri
 Group:		Sciences/Mathematics
