@@ -1,9 +1,9 @@
 %define	snapshot		20090617
-%define	name			m4ri
+%define	name			libm4ri
 %define major			0
-%define	libm4ri			%mklibname %{name} %{major}
-%define	libm4ri_devel		%mklibname %{name} -d
-%define	libm4ri_static_devel	%mklibname %{name} -d -s
+%define	libm4ri			%mklibname m4ri %{major}
+%define	libm4ri_devel		%mklibname m4ri -d
+%define	libm4ri_static_devel	%mklibname m4ri -d -s
 
 Name:		%{name}
 Group:		Sciences/Mathematics
