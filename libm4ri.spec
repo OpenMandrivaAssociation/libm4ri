@@ -10,7 +10,7 @@ Group:		Sciences/Mathematics
 License:	GPL
 Summary:	M4RI is a library for fast arithmetic with dense matrices over F2
 Version:	0.%{snapshot}
-Release:	%mkrel 2
+Release:	%mkrel 3
 Source:		http://m4ri.sagemath.org/downloads/m4ri-%{snapshot}.tar.gz
 URL:		http://m4ri.sagemath.org
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
@@ -29,6 +29,7 @@ under the General Public License Version 2 or later (GPLv2+).
 %package	-n %{libm4ri}
 Group:		System/Libraries
 Summary:	M4RI runtime library
+Requires:	%{libm4ri} = %{version}-%{release}
 Provides:	%{name} = %{version}-%{release}
 Provides:	lib%{name} = %{version}-%{release}
 
