@@ -27,7 +27,7 @@ the Sage mathematics software and the PolyBoRi library. M4RI is available
 under the General Public License Version 2 or later (GPLv2+).
 
 %package	-n %{libm4ri}
-Group:		Runtime/Libraries
+Group:		System/Libraries
 Summary:	M4RI runtime library
 Provides:	%{name} = %{version}-%{release}
 Provides:	lib%{name} = %{version}-%{release}
