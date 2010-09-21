@@ -1,4 +1,4 @@
-%define	snapshot		20100221
+%define	snapshot		20100701
 %define	name			libm4ri
 %define major			0
 %define	libm4ri			%mklibname m4ri %{major}
@@ -11,7 +11,7 @@ License:	GPL
 Summary:	M4RI is a library for fast arithmetic with dense matrices over F2
 Version:	0.%{snapshot}
 Release:	%mkrel 1
-# sagemath 4.4.4 spkg renamed
+# sagemath 4.5.3 spkg renamed
 Source:		libm4ri-%{snapshot}.tar.bz2
 URL:		http://m4ri.sagemath.org
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
@@ -57,7 +57,7 @@ M4RI is a library for fast arithmetic with dense matrices over F2.
 M4RI is used by the Sage mathematics software and the PolyBoRi library.
 
 %prep
-%setup -q -n libm4ri-%{snapshot}
+%setup -q -n libm4ri-%{snapshot}.p1
 
 %build
 pushd src
@@ -76,7 +76,7 @@ rm -rf %{buildroot}
 
 %files		-n %{libm4ri}
 %defattr(-,root,root)
-%{_libdir}/libm4ri-0.0.20091101.so
+%{_libdir}/libm4ri-0.0.20100701.so
 
 %files		-n %{libm4ri_devel}
 %defattr(-,root,root)
