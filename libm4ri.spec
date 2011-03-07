@@ -3,16 +3,16 @@
 %define major			0
 %define	libm4ri			%mklibname m4ri %{major}
 %define	libm4ri_devel		%mklibname m4ri -d
-%define	libm4ri_static_devel	%mklibname m4ri -d -s
+%define patchlevel		.p1
 
 Name:		%{name}
 Group:		Sciences/Mathematics
 License:	GPL
 Summary:	M4RI is a library for fast arithmetic with dense matrices over F2
-Version:	0.%{snapshot}
+Version:	0.%{snapshot}%{patchlevel}
 Release:	%mkrel 1
 # sagemath 4.5.3 spkg renamed
-Source:		libm4ri-%{snapshot}.tar.bz2
+Source:		libm4ri-%{snapshot}%{patchlevel}.tar.bz2
 URL:		http://m4ri.sagemath.org
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
