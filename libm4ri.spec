@@ -1,4 +1,4 @@
-%define	snapshot		20111004
+%define	snapshot		20120415
 %define	name			libm4ri
 %define major			0
 %define	libm4ri			%mklibname m4ri %{major}
@@ -10,10 +10,18 @@ License:	GPL
 Summary:	M4RI is a library for fast arithmetic with dense matrices over F2
 Version:	0.%{snapshot}
 Release:	%mkrel 1
-# sagemath 4.7.2 spkg renamed
-Source:		libm4ri-%{snapshot}.tar.bz2
 URL:		http://m4ri.sagemath.org
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
+Source:		http://m4ri.sagemath.org/downloads/m4ri-%{snapshot}.tar.gz
+
+# This patch will not be sent upstream, as it is Fedora-specific.
+# Permanently disable SSE3 and SSSE3 detection.  Without this patch, the
+# config file tends to be regenerated at inconvenient times.
+Patch0:         m4ri-no-sse3.patch
+
+BuildRequires:  doxygen
+BuildRequires:	gomp-devel
+BuildRequires:  png-devel
+BuildRequires:  texlive
 
 %description
 M4RI is a library for fast arithmetic with dense matrices over F2.
@@ -29,9 +37,8 @@ under the General Public License Version 2 or later (GPLv2+).
 %package	-n %{libm4ri}
 Group:		System/Libraries
 Summary:	M4RI runtime library
-Requires:	%{libm4ri} = %{version}-%{release}
+Provides:	m4ri = %{version}-%{release}
 Provides:	%{name} = %{version}-%{release}
-Provides:	lib%{name} = %{version}-%{release}
 
 %description	-n %{libm4ri}
 M4RI is a library for fast arithmetic with dense matrices over F2.
@@ -47,8 +54,8 @@ under the General Public License Version 2 or later (GPLv2+).
 %package	-n %{libm4ri_devel}
 Group:		Development/C
 Summary:	M4RI development files
+Provides:	m4ri-devel = %{version}-%{release}
 Provides:	%{name}-devel = %{version}-%{release}
-Provides:	lib%{name}-devel = %{version}-%{release}
 Requires:	%{libm4ri} = %{version}-%{release}
 
 %description	-n %{libm4ri_devel}
@@ -56,31 +63,78 @@ M4RI is a library for fast arithmetic with dense matrices over F2.
 M4RI is used by the Sage mathematics software and the PolyBoRi library.
 
 %prep
-%setup -q -n libm4ri-%{snapshot}
+%setup -q -n m4ri-%{snapshot}
+%patch0 -p0
+
+# Remove an unnecessary direct library dependency from the pkgconfig file
+sed -i -e "s/ -lm//" m4ri.pc.in
+
+# Fix library dependencies
+sed -i -e "s/-lm \$(LIBPNG_LIBADD)/-lgomp \$(LIBPNG_LIBADD)/" Makefile.in
+
+# Die, rpath, die!
+sed -e "s|\(hardcode_libdir_flag_spec=\)'.*|\1|" \
+    -e "s|\(runpath_var=\)LD_RUN_PATH|\1|" \
+    -i configure 
+
+# Fix a couple of broken doxygen commands
+sed -i -e "s/\\\\output/\\\\return/" -e "s/\\\\seealso/\\\\see/" src/misc.h
 
 %build
-pushd m4ri
-    autoreconf
-    %configure --disable-static
-    %make
-popd
+%ifarch %ix86
+# Build an SSE2-enabled version, 
+%configure --disable-static --enable-openmp CFLAGS="$RPM_OPT_FLAGS -march=pentium4" \
+  LDFLAGS="$RPM_LD_FLAGS -Wl,--as-needed"
+sed -e 's/^#undef HAVE_MMX/#define HAVE_MMX/' \
+    -e 's/^#undef HAVE_SSE$/#define HAVE_SSE/' \
+    -e 's/^#undef HAVE_SSE2/#define HAVE_SSE2/' \
+    -i src/config.h
+sed -e 's/^\(#define __M4RI_HAVE_SSE2[[:blank:]]*\)0/\11/' \
+    -e 's/^\(#define __M4RI_SIMD_CFLAGS[[:blank:]]*\).*/\1" -mmmx -msse -msse2"/' \
+    -i src/m4ri_config.h
+sed -i 's/^SIMD_CFLAGS =.*/SIMD_CFLAGS = -mmmx -msse -msse2/' Makefile
+%else
+%configure --disable-static --enable-openmp LDFLAGS="$RPM_LD_FLAGS -Wl,--as-needed"
+%endif
+
+%make
+
+%ifarch %ix86
+# Build an SSE2-disabled version
+cp -a .libs .libs.sse2
+make clean
+rm -fr .deps
+%configure --disable-static --enable-openmp --disable-sse2 \
+  LDFLAGS="$RPM_LD_FLAGS -Wl,--as-needed"
+%make
+%endif
+
+# Build documentation
+cd src
+doxygen
 
 %install
-pushd m4ri
-    %makeinstall_std
-popd
+%makeinstall_std
+%ifarch %ix86
+mkdir -p %{buildroot}%{_libdir}/sse2
+mv %{buildroot}%{_libdir}/libm4ri-*.so %{buildroot}%{_libdir}/sse2
+mv .libs .libs.nosse2
+mv .libs.sse2 .libs
+%makeinstall_std
+%endif
 
-%clean
-rm -rf %{buildroot}
+%check
+make check LD_LIBRARY_PATH=`pwd`/.libs
 
 %files		-n %{libm4ri}
-%defattr(-,root,root)
-%{_libdir}/libm4ri-0.0.%{snapshot}.so
+%doc COPYING README
+%{_libdir}/libm4ri-*.so
+%ifarch %ix86
+%{_libdir}/sse2/libm4ri-*.so
+%endif
 
 %files		-n %{libm4ri_devel}
-%defattr(-,root,root)
-%dir %{_includedir}/m4ri
-%{_includedir}/m4ri/*
-%{_libdir}/libm4ri.la
+%doc doc/html
+%{_includedir}/m4ri
 %{_libdir}/libm4ri.so
 %{_libdir}/pkgconfig/m4ri.pc
