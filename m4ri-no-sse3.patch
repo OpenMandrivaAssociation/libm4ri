@@ -1,0 +1,22 @@
+--- configure.orig	2012-04-13 17:00:41.000000000 -0600
++++ configure	2012-04-16 11:46:11.801540070 -0600
+@@ -11997,9 +11997,6 @@
+ else
+ 
+     ax_cv_have_sse3_ext=no
+-    if test "$((0x$ecx&0x01))" = 1; then
+-      ax_cv_have_sse3_ext=yes
+-    fi
+ 
+ fi
+ { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ax_cv_have_sse3_ext" >&5
+@@ -12012,9 +12009,6 @@
+ else
+ 
+     ax_cv_have_ssse3_ext=no
+-    if test "$((0x$ecx>>9&0x01))" = 1; then
+-      ax_cv_have_ssse3_ext=yes
+-    fi
+ 
+ fi
+ { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ax_cv_have_ssse3_ext" >&5
