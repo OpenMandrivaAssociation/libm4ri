@@ -138,3 +138,63 @@ make check LD_LIBRARY_PATH=`pwd`/.libs
 %{_includedir}/m4ri
 %{_libdir}/libm4ri.so
 %{_libdir}/pkgconfig/m4ri.pc
+
+
+%changelog
+* Tue Aug 14 2012 Paulo Andrade <pcpa@mandriva.com.br> 0.20120415-3
++ Revision: 814820
+- Bump release and rebuild.
+- Bump release and rebuild.
+
+* Mon Aug 13 2012 Paulo Andrade <pcpa@mandriva.com.br> 0.20120415-1
++ Revision: 814620
+- Update to release matching http://pkgs.fedoraproject.org/cgit/m4ri.git
+
+* Sat Nov 05 2011 Paulo Andrade <pcpa@mandriva.com.br> 0.20111004-1
++ Revision: 718066
+- Update to snapshot 20111004 required by sagemath 4.7.2
+
+* Tue Mar 08 2011 Paulo Andrade <pcpa@mandriva.com.br> 0.20100701.p1-1
++ Revision: 642761
+- Add patchlevel to version and rebuild
+
+* Tue Sep 21 2010 Paulo Andrade <pcpa@mandriva.com.br> 0.20100701-1mdv2011.0
++ Revision: 580438
+- Update to new snapshot 20100701.
+
+* Wed Jul 14 2010 Paulo Andrade <pcpa@mandriva.com.br> 0.20100221-1mdv2011.0
++ Revision: 552961
+- Update to snapshot 20100221
+- Drop libm4ri-static-devel package
+
+* Fri Jan 22 2010 Paulo Andrade <pcpa@mandriva.com.br> 0.20091120-2mdv2010.1
++ Revision: 495125
++ rebuild (emptylog)
+
+* Mon Jan 04 2010 Paulo Andrade <pcpa@mandriva.com.br> 0.20091120-1mdv2010.1
++ Revision: 486296
+- Update to 20091120 snapshot (required by sagemath 4.3)
+
+* Thu Sep 10 2009 Paulo Andrade <pcpa@mandriva.com.br> 0.20090617-4mdv2010.0
++ Revision: 437262
++ rebuild (emptylog)
+
+* Wed Sep 09 2009 Paulo Andrade <pcpa@mandriva.com.br> 0.20090617-3mdv2010.0
++ Revision: 436095
++ rebuild (emptylog)
+
+* Wed Sep 09 2009 Paulo Andrade <pcpa@mandriva.com.br> 0.20090617-2mdv2010.0
++ Revision: 435782
+- split package in runtime, devel and static libraries.
+
+* Wed Jul 15 2009 Paulo Andrade <pcpa@mandriva.com.br> 0.20090617-1mdv2010.0
++ Revision: 396456
+- Update to newer snapshot, required by sagemath package.
+
+* Tue Apr 07 2009 Paulo Andrade <pcpa@mandriva.com.br> 0.20090105-1mdv2009.1
++ Revision: 365050
+- Initial import of libm4ri.
+  M4RI is a library for fast arithmetic with dense matrices over F2.
+  http://m4ri.sagemath.org
+- libm4ri
+
