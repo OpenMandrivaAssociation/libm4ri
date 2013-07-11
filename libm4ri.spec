@@ -90,7 +90,7 @@ sed -e 's/^#undef HAVE_MMX/#define HAVE_MMX/' \
     -i src/config.h
 sed -e 's/^\(#define __M4RI_HAVE_SSE2[[:blank:]]*\)0/\11/' \
     -e 's/^\(#define __M4RI_SIMD_CFLAGS[[:blank:]]*\).*/\1" -mmmx -msse -msse2"/' \
-    -i src/m4ri_config.h
+    -i m4ri/m4ri_config.h
 sed -i 's/^SIMD_CFLAGS =.*/SIMD_CFLAGS = -mmmx -msse -msse2/' Makefile
 %else
 %configure --disable-static --enable-openmp
