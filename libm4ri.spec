@@ -83,7 +83,7 @@ rm -f m4ri/misc.h.orig
 %build
 %ifarch %ix86
 # Build an SSE2-enabled version, 
-%configure --disable-static --enable-openmp CFLAGS="$RPM_OPT_FLAGS -march=pentium4" \
+%configure --disable-static --enable-openmp CFLAGS="$RPM_OPT_FLAGS -march=pentium4"
 sed -e 's/^#undef HAVE_MMX/#define HAVE_MMX/' \
     -e 's/^#undef HAVE_SSE$/#define HAVE_SSE/' \
     -e 's/^#undef HAVE_SSE2/#define HAVE_SSE2/' \
