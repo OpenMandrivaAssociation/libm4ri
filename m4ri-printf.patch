@@ -1,0 +1,14 @@
+--- ./m4ri/io.c.orig	2012-10-26 02:46:49.000000000 -0600
++++ ./m4ri/io.c	2012-12-31 11:42:55.770730088 -0700
+@@ -27,9 +27,10 @@
+ 
+ #include "io.h"
+ #include "echelonform.h"
++#include <inttypes.h>
+ 
+ void mzd_info(const mzd_t *A, int do_rank) {
+-  printf("nrows: %6zu, ncols: %6zu, density: %6.5f, hash: 0x%016zx",(size_t)A->nrows,(size_t)A->ncols,mzd_density(A,1),mzd_hash(A));
++  printf("nrows: %6zu, ncols: %6zu, density: %6.5f, hash: 0x%016" PRIx64,(size_t)A->nrows,(size_t)A->ncols,mzd_density(A,1),mzd_hash(A));
+   if(do_rank) {
+     mzd_t *AA = mzd_copy(NULL, A);
+     printf(", rank: %6zu\n",(size_t)mzd_echelonize(AA,0));
