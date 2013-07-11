@@ -87,7 +87,7 @@ rm -f m4ri/misc.h.orig
 sed -e 's/^#undef HAVE_MMX/#define HAVE_MMX/' \
     -e 's/^#undef HAVE_SSE$/#define HAVE_SSE/' \
     -e 's/^#undef HAVE_SSE2/#define HAVE_SSE2/' \
-    -i src/config.h
+    -i m4ri/config.h
 sed -e 's/^\(#define __M4RI_HAVE_SSE2[[:blank:]]*\)0/\11/' \
     -e 's/^\(#define __M4RI_SIMD_CFLAGS[[:blank:]]*\).*/\1" -mmmx -msse -msse2"/' \
     -i m4ri/m4ri_config.h
