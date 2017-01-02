@@ -1,4 +1,4 @@
-%define	snapshot		20130416
+%define	snapshot		20140914
 %define	name			libm4ri
 %define major			0
 %define	libm4ri			%mklibname m4ri %{major}
@@ -9,9 +9,9 @@ Group:		Sciences/Mathematics
 License:	GPL
 Summary:	M4RI is a library for fast arithmetic with dense matrices over F2
 Version:	0.%{snapshot}
-Release:	4
-URL:		http://m4ri.sagemath.org
-Source:		http://m4ri.sagemath.org/downloads/m4ri-%{snapshot}.tar.gz
+Release:	1
+URL:		https://bitbucket.org/malb/m4ri
+Source:		https://bitbucket.org/malb/m4ri/downloads/m4ri-%{snapshot}.tar.gz
 Source1:	%{name}.rpmlintrc
 
 # This patch will not be sent upstream, as it is Fedora-specific.
@@ -126,7 +126,7 @@ make install DESTDIR=$RPM_BUILD_ROOT
 make check LD_LIBRARY_PATH=`pwd`/.libs
 
 %files		-n %{libm4ri}
-%doc COPYING README
+%doc COPYING NEWS INSTALL
 %{_libdir}/libm4ri-*.so
 %ifarch %ix86
 %{_libdir}/sse2/libm4ri-*.so
