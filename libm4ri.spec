@@ -3,6 +3,7 @@
 %define major			0
 %define	libm4ri			%mklibname m4ri %{major}
 %define	libm4ri_devel		%mklibname m4ri -d
+%define _disable_lto 1
 
 Name:		%{name}
 Group:		Sciences/Mathematics
@@ -65,8 +66,9 @@ M4RI is used by the Sage mathematics software and the PolyBoRi library.
 %patch0
 %patch1
 
-# Remove an unnecessary direct library dependency from the pkgconfig file
-sed -i -e "s/ -lm//" m4ri.pc.in
+# Remove an unnecessary direct library dependency from the pkgconfig file,
+# and also cflags used to compile m4ri, but not needed by consumers of m4ri.
+sed -i "s/ -lm$//;s/ @CFLAGS@ @SIMD_CFLAGS@ @OPENMP_CFLAGS@//" m4ri.pc.in
 
 # Die, rpath, die!  Also workaround libtool reordering -Wl,--as-needed after
 # all the libraries
