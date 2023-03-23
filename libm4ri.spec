@@ -1,26 +1,23 @@
-%define	snapshot		20140914
-%define	name			libm4ri
 %define major			0
-%define	libm4ri			%mklibname m4ri %{major}
+%define	oldlibm4ri		%mklibname m4ri 0
+%define	libm4ri			%mklibname m4ri
 %define	libm4ri_devel		%mklibname m4ri -d
 %define _disable_lto 1
 
-Name:		%{name}
+Name:		libm4ri
 Group:		Sciences/Mathematics
 License:	GPL
 Summary:	M4RI is a library for fast arithmetic with dense matrices over F2
-Version:	20140914
+Version:	20200125
 Release:	1
 URL:		https://bitbucket.org/malb/m4ri
-Source:		https://bitbucket.org/malb/m4ri/downloads/m4ri-%{snapshot}.tar.gz
+Source:		https://bitbucket.org/malb/m4ri/downloads/m4ri-%{version}.tar.gz
 Source1:	%{name}.rpmlintrc
 
 # This patch will not be sent upstream, as it is Fedora-specific.
 # Permanently disable SSE3 and SSSE3 detection.  Without this patch, the
 # config file tends to be regenerated at inconvenient times.
-Patch0:         m4ri-no-sse3.patch
-# Fix a format specifier.
-Patch1:         m4ri-printf.patch
+#Patch0:         m4ri-no-sse3.patch
 
 BuildRequires:  doxygen
 BuildRequires:	gomp-devel
@@ -38,6 +35,7 @@ Group:		System/Libraries
 Summary:	M4RI runtime library
 Provides:	m4ri = %{version}-%{release}
 Provides:	%{name} = %{version}-%{release}
+%rename %{oldlibm4ri}
 
 %description	-n %{libm4ri}
 M4RI is a library for fast arithmetic with dense matrices over F2.
@@ -62,9 +60,7 @@ M4RI is a library for fast arithmetic with dense matrices over F2.
 M4RI is used by the Sage mathematics software and the PolyBoRi library.
 
 %prep
-%setup -q -n m4ri-%{snapshot}
-%patch0
-%patch1
+%autosetup -p1 -n m4ri-%{version}
 
 # Remove an unnecessary direct library dependency from the pkgconfig file,
 # and also cflags used to compile m4ri, but not needed by consumers of m4ri.
@@ -128,7 +124,7 @@ make install DESTDIR=$RPM_BUILD_ROOT
 make check LD_LIBRARY_PATH=`pwd`/.libs
 
 %files		-n %{libm4ri}
-%doc COPYING NEWS INSTALL
+%doc COPYING NEWS
 %{_libdir}/libm4ri-*.so
 %ifarch %ix86
 %{_libdir}/sse2/libm4ri-*.so
