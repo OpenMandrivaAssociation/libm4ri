@@ -19,6 +19,11 @@ Source1:	%{name}.rpmlintrc
 # config file tends to be regenerated at inconvenient times.
 #Patch0:         m4ri-no-sse3.patch
 
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 BuildRequires:  doxygen
 BuildRequires:	gomp-devel
 BuildRequires:  png-devel
